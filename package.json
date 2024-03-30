@@ -62,7 +62,8 @@
     ]
   },
   "dependencies": {
-    "body-parser": "^1.19.0"
+    "body-parser": "^1.19.0",
+    "p-limit": "^2.3.0"
   },
   "release": {
     "branches": [
