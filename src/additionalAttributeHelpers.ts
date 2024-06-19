@@ -28,7 +28,7 @@ export const populateReference = <R extends RaRecord, T extends RaRecord>({fetch
 }
 
 export const populateReferenceMany = <R extends RaRecord, T extends RaRecord>({fetchAll,source= 'id', target }: {
-  fetchAll: (rows: R[]) => Promise<T[]>,
+  fetchAll: (rows: R[], req: Request) => Promise<T[]>,
   source?: keyof R
   target: keyof T
   }) => {
@@ -38,7 +38,7 @@ export const populateReferenceMany = <R extends RaRecord, T extends RaRecord>({f
       let referencesByTarget = cache.get(req)
 
       if (!referencesByTarget) {
-        const references = await fetchAll(rows)
+        const references = await fetchAll(rows, req)
 
         referencesByTarget = references.reduce((referencesByTarget, reference) => {
           if (!referencesByTarget[reference[target] as unknown as string]) {
@@ -56,7 +56,7 @@ export const populateReferenceMany = <R extends RaRecord, T extends RaRecord>({f
 
 
 export const populateReferenceManyCount = <R extends RaRecord, T extends RaRecord>({fetchAll,source= 'id', target }: {
-  fetchAll: (rows: R[]) => Promise<T[]>,
+  fetchAll: (rows: R[], req: Request) => Promise<T[]>,
   source?: keyof R
   target: keyof T
   }) => {
@@ -66,7 +66,7 @@ export const populateReferenceManyCount = <R extends RaRecord, T extends RaRecor
       let referencesByTarget = cache.get(req)
 
       if (!referencesByTarget) {
-        const references = await fetchAll(rows)
+        const references = await fetchAll(rows, req)
 
         referencesByTarget = references.reduce((referencesByTarget, reference) => {
           if (!referencesByTarget[reference[target] as unknown as string]) {
@@ -84,7 +84,7 @@ export const populateReferenceManyCount = <R extends RaRecord, T extends RaRecor
 }
 
 export const populateReferenceOne = <R extends RaRecord, T extends RaRecord>({fetchAll,source= 'id', target }: {
-  fetchAll: (rows: R[]) => Promise<T[]>,
+  fetchAll: (rows: R[], req: Request) => Promise<T[]>,
   source?: keyof R
   target: keyof T,
   }) => {
